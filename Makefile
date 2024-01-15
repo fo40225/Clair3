@@ -1,3 +1,14 @@
+# Default values
+NATIVE_FLAG :=
+py_native :=
+
+# Check if USE_NATIVE is set to 1
+ifeq ($(USE_NATIVE), 1)
+    NATIVE_FLAG := -march=native
+    py_native := --native
+endif
+
+# Your other Makefile rules and commands go here
 OS := $(shell uname)
 ARCH := $(shell arch)
 
@@ -12,9 +23,8 @@ GCC	?=	gcc
 GXX	?=	g++
 PREFIX	?=	${CONDA_PREFIX}
 LDFLAGS	=	-L ${PREFIX}/lib
-CFLAGS	= -fpic -std=c99 -O3 -I ${PREFIX}/include -L ${PREFIX}/lib
-CPPFLAGS	=	-std=c++11 -Wall -O3 -I ${PREFIX}/include -L ${PREFIX}/lib -Wl,-rpath=${PREFIX}/lib
-
+CFLAGS	=	$(NATIVE_FLAG) -fpic -std=c99 -O3 -I ${PREFIX}/include -L ${PREFIX}/lib
+CPPFLAGS	=	$(NATIVE_FLAG) -std=c++11 -Wall -O3 -I ${PREFIX}/include -L ${PREFIX}/lib -Wl,-rpath=${PREFIX}/lib
 
 samtools-$(SAMVER)/Makefile:
 		curl -L -o samtools-${SAMVER}.tar.bz2 https://github.com/samtools/samtools/releases/download/${SAMVER}/samtools-${SAMVER}.tar.bz2; \
@@ -36,7 +46,7 @@ longphase:
 
 
 libclair3.so: samtools-${SAMVER}/htslib-${SAMVER} libhts.a
-	${PYTHON} build.py
+	${PYTHON} build.py $(py_native)
 
 src/%.o: src/%.c
 	$(GCC) -g -Isrc -Isamtools-${SAMVER}/htslib-${SAMVER} -c -pthread -fstack-protector-strong -D_FORTIFY_SOURCE=2 \

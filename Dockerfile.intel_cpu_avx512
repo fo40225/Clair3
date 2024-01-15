@@ -30,19 +30,19 @@ ENV CONDA_DEFAULT_ENV clair3
 
 RUN /bin/bash -c "source activate clair3" && \
     conda install -c conda-forge pypy3.6 -y && \
-    conda install -c defaults nomkl "blas=*=*openblas" "libblas=*=*openblas" numpy==1.23.5 scipy scikit-learn numexpr -y && \
+    conda install -c conda-forge mkl "blas=*=*mkl" "libblas=*=*mkl" numpy==1.23.5 scipy scikit-learn numexpr -y && \
     pypy3 -m ensurepip && \
     pypy3 -m pip install mpmath==1.2.1 && \
-    conda install -c defaults nomkl "blas=*=*openblas" "libblas=*=*openblas" numpy==1.23.5 tensorflow==2.12.0 -y && \
-    conda install -c conda-forge nomkl "blas=*=*openblas" "libblas=*=*openblas" numpy==1.23.5 pytables -y && \
+    pip install intel-tensorflow-avx512==2.14.0 intel-extension-for-tensorflow[cpu]==2.14.0.0 && \
+    conda install -c conda-forge mkl "blas=*=*mkl" "libblas=*=*mkl" numpy==1.23.5 pytables -y && \
     pip install tensorflow-addons && \
-    conda install -c conda-forge nomkl "blas=*=*openblas" "libblas=*=*openblas" numpy==1.23.5 pigz -y && \
-    conda install -c conda-forge nomkl "blas=*=*openblas" "libblas=*=*openblas" numpy==1.23.5 cffi=1.14.4 -y && \
-    conda install -c conda-forge nomkl "blas=*=*openblas" "libblas=*=*openblas" numpy==1.23.5 parallel=20191122 zstd -y && \
-    conda install -c conda-forge -c bioconda nomkl "blas=*=*openblas" "libblas=*=*openblas" numpy==1.23.5 samtools=1.15.1 -y && \
-    conda install -c conda-forge -c bioconda nomkl "blas=*=*openblas" "libblas=*=*openblas" numpy==1.23.5 whatshap=1.7 -y && \
-    conda install -c conda-forge nomkl "blas=*=*openblas" "libblas=*=*openblas" numpy==1.23.5 xz zlib bzip2 -y && \
-    conda install -c conda-forge nomkl "blas=*=*openblas" "libblas=*=*openblas" numpy==1.23.5 automake curl -y && \
+    conda install -c conda-forge mkl "blas=*=*mkl" "libblas=*=*mkl" numpy==1.23.5 pigz -y && \
+    conda install -c conda-forge mkl "blas=*=*mkl" "libblas=*=*mkl" numpy==1.23.5 cffi=1.14.4 -y && \
+    conda install -c conda-forge mkl "blas=*=*mkl" "libblas=*=*mkl" numpy==1.23.5 parallel=20191122 zstd -y && \
+    conda install -c conda-forge -c bioconda mkl "blas=*=*mkl" "libblas=*=*mkl" numpy==1.23.5 samtools=1.15.1 -y && \
+    conda install -c conda-forge -c bioconda mkl "blas=*=*mkl" "libblas=*=*mkl" numpy==1.23.5 whatshap=1.7 -y && \
+    conda install -c conda-forge mkl "blas=*=*mkl" "libblas=*=*mkl" numpy==1.23.5 xz zlib bzip2 -y && \
+    conda install -c conda-forge mkl "blas=*=*mkl" "libblas=*=*mkl" numpy==1.23.5 automake curl -y && \
     rm -rf /opt/conda/pkgs/* && \
     rm -rf /root/.cache/pip && \
     echo "source activate clair3" > ~/.bashrc
